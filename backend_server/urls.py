@@ -40,7 +40,6 @@ urlpatterns = [
     path('user/delete/<str:email>/', views.delete_user, name='delete_user'),
     path('setworkout/', views.set_workout, name='setworkout'),
     path('workoutdata/', views.wrk_data, name='workoutdata'),
-    path('login-sm/', views.social_media_login, name='login-sm'),
 
     #TODO: for admin account in flutter: also get all messages with the same thread_number (all messages for that open case)
     #TODO: for admin account in fluttre: be able to close the case, if resolved
