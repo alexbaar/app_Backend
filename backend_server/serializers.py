@@ -4,9 +4,17 @@ from .models import MyUser,AccountDetails,HelpCentreMessage, TerminateAccountMes
 
 # Serializer for the Users model to convert Python objects to JSON
 class UserSerializer(serializers.ModelSerializer):
+    login_id = serializers.CharField(required=False) 
+    login_type = serializers.CharField(required=False) 
     class Meta:
         model = MyUser  
-        fields = ['id','email', 'username', 'password', 'user_created']   
+        fields = ['id','email', 'username', 'password', 'user_created', 'login_id', 'login_type']
+
+class SocialMediaUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(required=False)
+    class Meta:
+        model = MyUser  
+        fields = ['id','email', 'username','password', 'user_created', 'login_id', 'login_type']
 
 class AccountDetailsSerializer(serializers.ModelSerializer):
     class Meta:
