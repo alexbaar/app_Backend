@@ -16,7 +16,6 @@ from dotenv import load_dotenv
 
 
 # load environment variables from .env file from project root
-print(Path('.'))
 env_path = Path('.') / '.env'
 load_dotenv(env_path)
 
@@ -41,7 +40,6 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "0.0.0.0",
     "192.168.1.104",
-    "192.168.1.6"
 ]
 
 # Application definition
