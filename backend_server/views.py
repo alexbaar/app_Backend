@@ -1,7 +1,7 @@
 # Import necessary modules and classes
 
 from .models import MyUser, AccountDetails, HelpCentreMessage, TerminateAccountMessage
-from .serializers import UserSerializer, AccountDetailsSerializer, HelpCentreMsgSerializer, TerminateAccMsgSerializer, WorkoutEntrySerializer, WorkoutTypeSerializer
+from .serializers import UserSerializer, AccountDetailsSerializer, HelpCentreMsgSerializer, TerminateAccMsgSerializer, WorkoutEntrySerializer, WorkoutTypeSerializer, SocialMediaUserSerializer
 from .forms import UserCreationForm,SignUpForm,LoginForm
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
@@ -19,6 +19,9 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from rest_framework.decorators import parser_classes
 from rest_framework.parsers import JSONParser
+from django.db.models import Q
+from datetime import datetime
+import hashlib
 
 
 
@@ -129,6 +132,70 @@ def signup(request, format=None):
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"message": "Failed to create user.", "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+#                                   USER SOCIAL MEDIA SIGN UP AND LOGIN
+@api_view(['POST'])
+def social_media_login(request, format=None):
+    if request.method == 'POST':
+        fetched_email = request.data.get("email")
+        fetched_username =  ("username")
+        fetched_image = request.data.get("image")
+        fetched_timestamp = request.data.get("user_created")
+        fetched_id = request.data.get("login_id")
+        fetched_type = request.data.get("login_type")
+
+        user_is_enrolled = MyUser.objects.filter(Q(login_id=fetched_id) & Q(login_type=fetched_type) & Q(email=fetched_email)).first()
+        user_is_registered = MyUser.objects.filter(Q(login_id__isnull=True) & Q(login_type__isnull=True) & Q(email=fetched_email)).exists()
+
+        if user_is_enrolled != None:
+            account_details = AccountDetails.objects.filter(email=fetched_email)
+            serializer = AccountDetailsSerializer(account_details, many=True)
+
+            return Response({
+                'message': 'Login successful',
+                'id':user_is_enrolled.id,
+                'account_details': serializer.data,
+            }, status=status.HTTP_200_OK)
+           
+        elif user_is_registered:
+           return Response({"message": "User is already registered directly to the platform", "code": 1001}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer = SocialMediaUserSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                
+                account_details = AccountDetails.objects.filter(email=fetched_email)
+                account_serializer = AccountDetailsSerializer(account_details, many=True)
+
+                return Response({
+                    'message': 'Login successful - new user',
+                    'id':serializer.data["id"],
+                    'account_details': account_serializer.data,
+                }, status=status.HTTP_200_OK)
+
+            elif serializer.errors.get('username') != "my user with this username already exists.":
+                suffix = str(datetime.now())[-5:]
+                request.data.update({"username": fetched_username + suffix})
+                serializer = SocialMediaUserSerializer(data=request.data)
+                if serializer.is_valid():
+                    serializer.save()
+                    
+                    account_details = AccountDetails.objects.filter(email=fetched_email)
+                    account_serializer = AccountDetailsSerializer(account_details, many=True)
+
+                    return Response({
+                        'message': 'Login successful - new user',
+                        'id':serializer.data.id,
+                        'account_details': account_serializer.data,
+                    }, status=status.HTTP_200_OK)
+                else:
+                    return Response({"message": "Failed to create user.", "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
             else:
                 return Response({"message": "Failed to create user.", "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
