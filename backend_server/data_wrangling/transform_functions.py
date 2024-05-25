@@ -3,7 +3,7 @@
 # averages, min, max, mean, etc
 
 
-def calculate_workout_speed(workout_entries):
+def calculate_avg_workout_speed(workout_entries):
     """
     Calculate the average speed of workout entries.
     

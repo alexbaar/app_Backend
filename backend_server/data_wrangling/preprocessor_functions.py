@@ -1,6 +1,6 @@
 from ..models import MyUser
 
-# does the same as the script in models.py - lines 24-32
+# TODO: implement when creating a user (signing in) ; does the same as the script in models.py - lines 24-32
 
 
 def generate_user_id(user):

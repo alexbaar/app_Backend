@@ -1,5 +1,7 @@
 
 import numpy as np
+
+
 def calculate_statistics(data):
     # Example: Calculate mean and standard deviation of heart rate
     heart_rates = [entry.heart_rate for entry in data if entry.heart_rate is not None]
