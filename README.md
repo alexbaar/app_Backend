@@ -46,6 +46,8 @@
         	pip install Django djangorestframework
     
         	pip install python-dotenv
+    
+for data analysis:
 
 		pip install numpy
     
@@ -53,11 +55,14 @@
 
 		pip install scimitar-learn
 
+for celery async manager: 
+
 		pip install redis
 
 		pip install celery
 
 		pip install Django-celery-results
+additional:
 
 		python -m pip install Pillow
 
@@ -85,15 +90,15 @@ then at project root add a new file called ' .env ' inside specify the following
 
 like this: 
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-p+o(#sfioy$e*&gh_uw7dhoi8swlc0@xc3uu^$qikr80w)*z9d"
+	# SECURITY WARNING: keep the secret key used in production secret!
+	SECRET_KEY = "django-insecure-p+o(#sfioy$e*&gh_uw7dhoi8swlc0@xc3uu^$qikr80w)*z9d"
 
-# email functionality
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+	# email functionality
+	EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-# settings.py
-# email address used when sending emails from Django app (like when resetting password or else)
-DEFAULT_FROM_EMAIL = "put_your_email.com"
+	# settings.py
+	# email address used when sending emails from Django app (like when resetting password or else)
+	DEFAULT_FROM_EMAIL = "put_your_email.com"
 
 
 
