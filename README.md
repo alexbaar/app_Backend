@@ -40,8 +40,27 @@
  
 
 16. then type:
-
+    
+        pip install django
+    
         pip install Django djangorestframework
+    
+        pip install python-dotenv
+    
+        python -m pip install Pillow
+
+        pip install numpy
+    
+	pip install matplotlib
+
+	pip install scimitar-learn
+
+	pip install redis
+
+	pip install celery
+
+	pip install Django-celery-results
+
 
 18. then go one level up. type:
 
