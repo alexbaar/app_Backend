@@ -112,7 +112,14 @@ like this:
 
 30. to run the backend:              (if you work with python, not python3, then type: python manage.py runserver 0.0.0.0:8000)
 
+type in 1st terminal:
+
         python3 manage.py runserver 0.0.0.0:8000
+
+open second terminal and type: 
+
+	celery -A backend_server worker --loglevel=info
+
 
 32. !!!! Possible errors:
     
