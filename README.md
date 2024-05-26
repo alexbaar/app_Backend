@@ -148,6 +148,16 @@ if not found run :
 save project. Close VS Code and reopen. The error should be gone now. 
 
 
+2) Error: 'that port is already in use' . Run in terminal, to kill the current process:
+
+   		lsof -ti:8000 | xargs kill
+
+   then re-run the app:
+
+   		python3 manage.py runserver 0.0.0.0:8080
+   
+
+
 
     
 
